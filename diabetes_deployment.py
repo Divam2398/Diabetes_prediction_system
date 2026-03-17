@@ -10,31 +10,29 @@ import streamlit as st
 import numpy as np
 import joblib
 
-# Load trained model
-model = joblib.load("Diabetes_prediction.pkl")
+# Load model
+model = joblib.load("diabetes_model.pkl")
 
 st.title("Diabetes Prediction System")
 
-st.write("Enter patient details to check diabetes risk.")
+st.write("Enter details to predict diabetes:")
 
-Pregnancies = st.number_input("Number of Pregnancies", 0, 20)
-Glucose = st.number_input("Glucose Level", 0, 200)
+Pregnancies = st.number_input("Pregnancies", 0, 20)
+Glucose = st.number_input("Glucose", 0, 200)
 BloodPressure = st.number_input("Blood Pressure", 0, 150)
 SkinThickness = st.number_input("Skin Thickness", 0, 100)
-Insulin = st.number_input("Insulin Level", 0, 900)
+Insulin = st.number_input("Insulin", 0, 900)
 BMI = st.number_input("BMI", 0.0, 70.0)
 DiabetesPedigreeFunction = st.number_input("Diabetes Pedigree Function", 0.0, 3.0)
 Age = st.number_input("Age", 1, 120)
 
 if st.button("Predict"):
-
     input_data = np.array([[Pregnancies, Glucose, BloodPressure, SkinThickness,
                             Insulin, BMI, DiabetesPedigreeFunction, Age]])
 
     prediction = model.predict(input_data)
 
     if prediction[0] == 1:
-        st.error("The person is likely to have Diabetes")
+        st.error("Diabetes Detected")
     else:
-        st.success("The person is not likely to have Diabetes")
-joblib.dump(model, "diabetes_model.pkl")
+        st.success("No Diabetes")
